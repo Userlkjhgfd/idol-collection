@@ -1,0 +1,12 @@
+{
+  "name": "IDOL COLLECTION",
+  "short_name": "IDOL COLLECT",
+  "description": "黒×紫ネオンのアイドルコレクションアプリ",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#090710",
+  "theme_color": "#10091d",
+  "icons": []
+}

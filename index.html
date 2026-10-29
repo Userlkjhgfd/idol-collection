@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#10091d">
+  <meta name="description" content="黒×紫ネオンのアイドルコレクション・ガチャ・ライブアプリ">
+  <title>IDOL COLLECTION</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-mark">✦</div>
+      <div class="brand-copy"><strong>IDOL COLLECTION</strong><span>NEON STAGE PROJECT</span></div>
+      <div class="topbar-right"><span id="saveStatus" class="save-status">● ローカル保存</span><button class="icon-button" id="settingsBtn" aria-label="設定">⚙</button></div>
+    </header>
+
+    <main id="mainContent" class="main-content">
+      <section class="page active" id="page-home">
+        <div class="hero-panel">
+          <div class="hero-copy"><span class="eyebrow">WELCOME BACK</span><h1>あなたのステージへ。</h1><p>集めて、育てて、輝かせよう。</p></div>
+          <div class="hero-orb">✦</div>
+        </div>
+        <div class="home-grid">
+          <article class="panel ticket-panel">
+            <div class="panel-heading"><div><span class="eyebrow">GACHA TICKET</span><h2>所持チケット</h2></div><span class="mini-icon">✦</span></div>
+            <div class="ticket-number"><strong id="ticketCount">30</strong><span>/ 30 枚</span></div>
+            <div class="ticket-track"><span id="ticketBar"></span></div>
+            <div class="recovery"><span class="pulse-dot"></span><span id="ticketRecovery">チケットは満タンです</span></div>
+          </article>
+          <article class="panel live-launch-panel">
+            <span class="eyebrow">LIVE STAGE</span><h2>応援でレベルアップ</h2><p>50回タップして、参加アイドルを育成しよう。</p>
+            <button class="primary-button" data-nav="live">▶ ライブ開始</button>
+          </article>
+        </div>
+        <div class="section-heading"><div><span class="eyebrow">QUICK ACCESS</span><h2>メニュー</h2></div></div>
+        <div class="quick-grid">
+          <button class="quick-card" data-nav="gacha"><span>✧</span><b>ガチャ</b><small>単発・10連</small></button>
+          <button class="quick-card" data-nav="encyclopedia"><span>▤</span><b>図鑑</b><small>コレクション</small></button>
+          <button class="quick-card" data-nav="register"><span>＋</span><b>カード登録</b><small>写真から登録</small></button>
+        </div>
+      </section>
+
+      <section class="page" id="page-gacha">
+        <div class="page-heading"><div><span class="eyebrow">GACHA SYSTEM</span><h1>ガチャ</h1><p>登録したカードからアイドルを迎えよう。</p></div><div class="ticket-pill">✦ <b id="gachaTicketCount">30</b> 枚</div></div>
+        <div class="gacha-stage">
+          <div class="stage-light light-one"></div><div class="stage-light light-two"></div><div class="stage-stars">✦　·　✧　·　✦</div>
+          <div class="gacha-emblem">IC</div><span class="eyebrow">NEON PHOTO SESSION</span><h2>運命の一枚を。</h2><p>SR 10% <i>／</i> R 30% <i>／</i> N 60%</p>
+          <div class="gacha-actions"><button id="singlePull" class="primary-button">単発ガチャ <small>1 TICKET</small></button><button id="tenPull" class="secondary-button">10連ガチャ <small>10 TICKETS</small></button></div>
+          <p class="muted tiny">未登録ランクの確率は登録済みランクへ比例配分されます。</p>
+        </div>
+        <div class="section-heading"><div><span class="eyebrow">RECENT DROP</span><h2>最近の獲得カード</h2></div></div>
+        <div id="recentPulls" class="card-strip empty-note">まだガチャの結果がありません。</div>
+      </section>
+
+      <section class="page" id="page-encyclopedia">
+        <div class="page-heading"><div><span class="eyebrow">COLLECTION FILE</span><h1>図鑑</h1><p>登録カードと所持状況を確認。</p></div><div class="stat-pill"><b id="catalogCount">0</b><span>登録カード</span></div></div>
+        <div class="filter-panel panel">
+          <input id="searchCards" class="text-input" type="search" placeholder="カード名で検索">
+          <select id="filterRank" class="select-input"><option value="">すべてのランク</option><option>SR</option><option>R</option><option>N</option></select>
+          <select id="filterAttribute" class="select-input"><option value="">すべての属性</option><option>Sexy</option><option>Cool</option><option>Cute</option></select>
+          <select id="sortCards" class="select-input">
+            <option value="rank-asc">ランク：SR → R → N</option><option value="rank-desc">ランク：N → R → SR</option>
+            <option value="name-asc">名前：五十音順</option><option value="name-desc">名前：逆順</option>
+            <option value="attribute-asc">属性：Sexy → Cool → Cute</option><option value="attribute-desc">属性：Cute → Cool → Sexy</option>
+            <option value="level-asc">レベル：低い順</option><option value="level-desc">レベル：高い順</option>
+          </select>
+        </div>
+        <div class="collection-summary"><span id="collectionSummary">登録カードを表示します。</span><span class="legend"><i class="owned-dot"></i>所持 <i class="not-owned-dot"></i>未所持</span></div>
+        <div id="cardGrid" class="card-grid"></div>
+      </section>
+
+      <section class="page" id="page-live">
+        <div class="page-heading"><div><span class="eyebrow">LIVE PERFORMANCE</span><h1>ライブ</h1><p>最大10人を選んで、ステージを盛り上げよう。</p></div><div class="stat-pill"><b>50</b><span>応援タップ</span></div></div>
+        <div id="liveSetup" class="panel">
+          <div class="panel-heading"><div><span class="eyebrow">YOUR LINEUP</span><h2>参加キャラを選択</h2></div><span id="selectedCount" class="count-pill">0 / 10</span></div>
+          <p class="muted">毎回手動で選択します。所持カードから最大10人まで選べます。</p>
+          <div id="liveRoster" class="roster-grid empty-note">所持カードがありません。先に登録してガチャを引いてください。</div>
+          <button id="startLive" class="primary-button wide-button" disabled>ライブを開始</button>
+        </div>
+        <div id="livePlaying" class="live-playing hidden">
+          <div class="live-stage">
+            <div class="stage-beam"></div><div class="stage-label">ON AIR · LIVE PERFORMANCE</div>
+            <div id="livePerformerNames" class="performer-names"></div>
+            <div id="cheerEffects" class="cheer-effects"></div>
+            <div class="live-counter"><strong id="tapCount">0</strong><span>/ 50 CHEERS</span></div>
+            <button id="cheerButton" class="cheer-button"><span>✦</span><b>応援する！</b><small>タップしてステージを輝かせよう</small></button>
+            <div class="live-progress"><span id="liveProgressBar"></span></div>
+          </div>
+        </div>
+        <div id="liveResult" class="panel hidden"></div>
+      </section>
+
+      <section class="page" id="page-register">
+        <div class="page-heading"><div><span class="eyebrow">CARD STUDIO</span><h1>カード登録</h1><p>写真から自分だけのカード図鑑を作成。</p></div></div>
+        <div class="register-layout">
+          <form id="cardForm" class="panel register-form">
+            <input type="hidden" id="editCardId">
+            <div class="form-heading"><h2 id="formTitle">新しいカードを登録</h2><span class="eyebrow">NEW CARD</span></div>
+            <label class="upload-zone" for="cardImage"><span id="imagePreview" class="image-preview">＋</span><strong id="uploadTitle">写真を選択</strong><small>iPhoneの写真から画像を追加できます</small><input id="cardImage" type="file" accept="image/*" hidden></label>
+            <div class="field-row"><label>カード名<input id="cardName" class="text-input" maxlength="80" required placeholder="例：星野 ルナ"></label><label>属性<select id="cardAttribute" class="select-input" required><option value="Sexy">Sexy</option><option value="Cool">Cool</option><option value="Cute">Cute</option></select></label></div>
+            <label>ランク<select id="cardRank" class="select-input" required><option value="SR">SR</option><option value="R">R</option><option value="N">N</option></select></label>
+            <p class="muted tiny">同じ名前・別の写真も、それぞれ独立した登録カードとして管理されます。</p>
+            <div class="form-actions"><button type="submit" class="primary-button" id="saveCardBtn">カードを登録</button><button type="button" class="secondary-button hidden" id="cancelEditBtn">編集をキャンセル</button></div>
+          </form>
+          <div class="panel register-help"><span class="eyebrow">CARD MANAGEMENT</span><h2>登録カードの管理</h2><p>登録したカードは図鑑から編集・削除できます。登録カードを削除すると、そのカード定義と関連する所持枚数も削除されます。</p><div class="help-stat"><span>登録カード</span><b id="registerCatalogCount">0</b></div><div class="help-stat"><span>所持カード合計</span><b id="ownedCopiesCount">0</b></div><div class="help-stat"><span>画像保存</span><b>自動最適化</b></div></div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="メインナビゲーション">
+      <button class="nav-item active" data-nav="home"><span>⌂</span><small>ホーム</small></button>
+      <button class="nav-item" data-nav="gacha"><span>✧</span><small>ガチャ</small></button>
+      <button class="nav-item" data-nav="encyclopedia"><span>▤</span><small>図鑑</small></button>
+      <button class="nav-item" data-nav="live"><span>♫</span><small>ライブ</small></button>
+      <button class="nav-item" data-nav="register"><span>＋</span><small>登録</small></button>
+    </nav>
+  </div>
+
+  <dialog id="modal" class="modal"><div id="modalContent" class="modal-content"></div></dialog>
+  <dialog id="settingsModal" class="modal"><div class="modal-content settings-content"><button class="modal-close" data-close-settings>×</button><span class="eyebrow">DATA & SETTINGS</span><h2>データ管理</h2><p>登録画像を含むすべてのデータを、1つのバックアップファイルに保存できます。</p><button id="exportBtn" class="primary-button wide-button">バックアップを書き出す</button><label class="secondary-button file-import">バックアップを復元<input id="importFile" type="file" accept=".idolbackup,.json,application/json" hidden></label><p class="warning-text">復元すると現在のデータはバックアップの内容に置き換わります。復元前に現在のデータをバックアップしてください。</p><button id="clearDataBtn" class="danger-button wide-button">すべてのデータを削除</button><p class="muted tiny">データはこのブラウザ内に保存されます。ブラウザのデータ消去で失われる可能性があるため、定期的なバックアップをおすすめします。</p></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js"></script>
+</body>
+</html>
